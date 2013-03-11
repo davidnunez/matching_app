@@ -30,8 +30,8 @@ public class Director : MonoBehaviour {
 	string[] lowerLetters = new string[] {"a.png","b.png","c.png","d.png","e.png","f.png","g.png","h.png","i.png","j.png","k.png","l.png","m.png","n.png","o.png","p.png","q.png","r.png","s.png","t.png","u.png","v.png","w.png","x.png","y.png","z.png"};
 	string[] upperLetters = new string[] {"a.png","b.png","c.png","d.png","e.png","f.png","g.png","h.png","i.png","j.png","k.png","l.png","m.png","n.png","o.png","p.png","q.png","r.png","s.png","t.png","u.png","v.png","w.png","x.png","y.png","z.png"};
 	string[] vehicles = new string[] {"Airplane.jpg","bicycle.jpg","car.jpg","firetruck.jpg","motorcycle.jpg","schoolbus.jpg","toyfiretruck.jpg","toytanktruck.jpg"};
-	string[] food = new string[] {"apple.jpg","banana.jpg","bnana.png","bread.jpg","bread.png","candy.jpg","cheese.jpg","cookie.jpg","cracker02.jpg","drink.png","egg.jpg","icecream.png","juice.png","orange.jpg","pitabread.jpg","pizza.jpg","raisins.jpg","snowpeas02.jpg","toast.jpg"};
-	string[] smallHouseholdItems = new string[] {"50dollarsbill.jpg","bowl02.jpg","box01.jpg","broom.jpg","brush05b.jpg","cardboardbox.jpg","carkeys.jpg","clock01a.jpg","clock05.jpg","comb.jpg","fork03c.jpg","glass02a.jpg","glasses01a.jpg","hammer-Plastic-Toy-Hammer.jpg","lamp04a.jpg","light.png","lightbulb01.jpg","papertowel.jpg","pillow01a.jpg","plant04b.jpg","plant08.jpg","radio02.jpg","scissors01.jpg","scissors06.jpg","soap.jpg","soap01.jpg","spoon02b.jpg","sunglasses02b.jpg","toothbrush.jpg","towel03b.jpg","watch01.jpg","watch05.jpg","winebottle02.jpg","wineglass02.jpg","woodenspoon.jpg"};
+	string[] food = new string[] {"apple.jpg","banana.jpg","bread.jpg","candy.jpg","cheese.jpg","cookie.jpg","cracker02.jpg","egg.jpg","orange.jpg","pitabread.jpg","pizza.jpg","raisins.jpg","snowpeas02.jpg","toast.jpg"};
+	string[] smallHouseholdItems = new string[] {"50dollarsbill.jpg","bowl02.jpg","box01.jpg","broom.jpg","brush05b.jpg","cardboardbox.jpg","carkeys.jpg","clock01a.jpg","clock05.jpg","comb.jpg","fork03c.jpg","glass02a.jpg","glasses01a.jpg","hammer-Plastic-Toy-Hammer.jpg","lamp04a.jpg","lightbulb01.jpg","papertowel.jpg","pillow01a.jpg","plant04b.jpg","plant08.jpg","radio02.jpg","scissors01.jpg","scissors06.jpg","soap.jpg","soap01.jpg","spoon02b.jpg","sunglasses02b.jpg","toothbrush.jpg","towel03b.jpg","watch01.jpg","watch05.jpg","winebottle02.jpg","wineglass02.jpg","woodenspoon.jpg"};
 	string[] outside = new string[] {"flower.jpg", "plasticflower01a.jpg", "shovel01.jpg"};
 
 	public bool correctmatch = true;
@@ -45,13 +45,53 @@ public class Director : MonoBehaviour {
 	
 	}
 	
-	void OnMessageTouched(string objectName) {
+	IEnumerator OnMessageTouched(string objectName) {
 		
-		Debug.Log ("Touched:" + objectName);
+		Debug.Log ("Touched:" + objectName + " LookingFor: " + targetFile + targetString);
+		if (objectName == "Option1") {
+			Debug.Log ("touched: " + option1string);
+
+			if (option1string == targetString) {
+				iTween.ScaleTo(option2, iTween.Hash ("scale", new Vector3(0,0,0), "easetype", "bounce"));
+				iTween.ScaleTo(option3, iTween.Hash ("scale", new Vector3(0,0,0), "easetype", "bounce"));
+				yield return new WaitForSeconds(1);
+				SetupOptions();
+			}
+		}
+		
+		if (objectName == "Option2") {
+			Debug.Log ("touched: " + option2string);
+
+			if (option2string == targetString) {
+				iTween.ScaleTo(option1, iTween.Hash ("scale", new Vector3(0,0,0), "easetype", "bounce"));
+				iTween.ScaleTo(option3, iTween.Hash ("scale", new Vector3(0,0,0), "easetype", "bounce"));
+				yield return new WaitForSeconds(1);
+				SetupOptions();
+			}
+		}
+		if (objectName == "Option3") {
+			Debug.Log ("touched: " + option3string);
+
+			if (option3string == targetString) {
+				iTween.ScaleTo(option1, iTween.Hash ("scale", new Vector3(0,0,0), "easetype", "bounce"));
+				iTween.ScaleTo(option2, iTween.Hash ("scale", new Vector3(0,0,0), "easetype", "bounce"));
+				yield return new WaitForSeconds(1);
+				SetupOptions();
+			}
+		}
+		
+		
+		
+		
 	}
 	
 
 	void SetupOptions() {
+		iTween.ScaleTo(option1, iTween.Hash ("scale", new Vector3(-200,-200,0), "easetype", "bounce"));
+
+		iTween.ScaleTo(option2, iTween.Hash ("scale", new Vector3(-200,-200,0), "easetype", "bounce"));
+		iTween.ScaleTo(option3, iTween.Hash ("scale", new Vector3(-200,-200,0), "easetype", "bounce"));
+
 		if (mode == Mode.lowerlower) {
 			Debug.Log ("Loading LowerLower");
 			option1File = "file://" + Application.dataPath + "/Resources/lower_letters/";
